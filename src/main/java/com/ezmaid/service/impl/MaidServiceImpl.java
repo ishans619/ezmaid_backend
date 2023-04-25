@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ezmaid.entity.Maid;
+import com.ezmaid.exception.MaidNotFoundException;
 import com.ezmaid.repository.MaidDao;
 import com.ezmaid.service.MaidService;
 
@@ -39,13 +40,17 @@ public class MaidServiceImpl implements MaidService {
 	@Override
 	public Maid fetchOne(String maidId) {
 		Optional<Maid> maid =  maidDao.findById(maidId);
+		if(maid.isEmpty()) {
+			throw new MaidNotFoundException("No maid record found with the provided ID: "+maidId);
+		}
 		return maid.get();
 	}
 
 
 	@Override
 	public void deleteOne(String maidId) {
-		maidDao.deleteById(maidId);
+		Maid maid = fetchOne(maidId);
+		maidDao.deleteById(maid.getMaidId());
 	}
 
 

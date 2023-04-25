@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ezmaid.entity.Customer;
+import com.ezmaid.exception.CustomerNotFoundException;
 import com.ezmaid.repository.CustomerDao;
 import com.ezmaid.service.CustomerService;
 
@@ -38,13 +39,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer fetchOne(String customerId) {
 		Optional<Customer> customer =  customerDao.findById(customerId);
+		if(customer.isEmpty()) {
+			throw new CustomerNotFoundException("No customer record found with the provided ID: "+customerId);
+		}
 		return customer.get();
 	}
 
 
 	@Override
 	public void deleteOne(String customerId) {
-		customerDao.deleteById(customerId);
+		Customer customer = fetchOne(customerId);
+		customerDao.deleteById(customer.getCustomerId());
 	}
 
 

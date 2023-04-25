@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 import com.ezmaid.entity.Admin;
+import com.ezmaid.exception.AdminNotFoundException;
 import com.ezmaid.repository.AdminDao;
 import com.ezmaid.service.AdminService;
 
@@ -35,6 +37,9 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public Admin fetchOne(String adminId) {
 		Optional<Admin> admin =  adminDao.findById(adminId);
+		if(admin.isEmpty()) {
+			throw new AdminNotFoundException("No admin record found with the provided ID: "+adminId);
+		}
 		return admin.get();
 	}
 
@@ -42,8 +47,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public String deleteOne(String adminId) {
 		String status = "Deleted";
-		Optional<Admin> admin = adminDao.findById(adminId);
-		if(!admin.get().getIsSuperAdmin()) {
+		Admin admin = fetchOne(adminId);
+		if(!admin.getIsSuperAdmin()) {
 			adminDao.deleteById(adminId);
 		}
 		else {
