@@ -1,15 +1,41 @@
 package com.ezmaid.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 public class CustomerDTO {
 	
 	private String custId;
+	
+	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "First Name is mandatory")
 	private String fName; 
-	private String mName; 
-	private String lName; 
-	private String contactNumber; 
-	private String address; 
-	private String adharCardNumber; 
-	private String panCardNumber; 
+	
+	private String mName;
+	
+	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Last Name is mandatory")
+	private String lName;
+	
+	@NotNull(message = "Mandatory Field")
+	@Pattern(regexp="(^$|[1-9]{1}[0-9]{9})", message = "Contact Number Invalid")
+	private String contactNumber;
+	
+	@NotNull(message = "Mandatory Field")
+	private String address;
+	
+	@NotNull(message = "Mandatory Field")
+	@Pattern(regexp="(^$|[0-9]{16})", message = "Aadhaar Card Number Invalid")
+	private String adharCardNumber;
+	
+	@NotNull(message = "Mandatory Field")
+	@Pattern(regexp="(^$|[A-Z]{5}[0-9]{4}[A-Z]{1})", message = "Pan Card Number Invalid")
+	private String panCardNumber;
+	
+	@NotNull(message = "Mandatory Field")
+	@Email(message = "Invalid email")
 	private String email;
 	
 	public CustomerDTO() {

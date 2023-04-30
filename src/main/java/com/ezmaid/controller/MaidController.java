@@ -1,10 +1,16 @@
 package com.ezmaid.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezmaid.dto.MaidDTO;
 import com.ezmaid.entity.Maid;
 import com.ezmaid.service.MaidService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -28,13 +36,13 @@ public class MaidController {
 	}
 
 	@PostMapping(path = "/maids")
-	public String save(@RequestBody MaidDTO maidDTO) {
+	public ResponseEntity<String> save(@Valid @RequestBody MaidDTO maidDTO) {
 		System.out.println("maidDTO = "+ maidDTO);
 		Maid maid = new Maid();
 		BeanUtils.copyProperties(maidDTO, maid);
 		System.out.println("Copied values to maid: " + maid);
 		String maidId = maidService.saveMaid(maid);
-		return maidId;
+		return ResponseEntity.ok(maidId);
 		
 	}
 	
@@ -66,6 +74,19 @@ public class MaidController {
 	public String delete(@PathVariable("maidId") String maidId) {
 		maidService.deleteOne(maidId); 
 		return "deleted";
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public final  Map<String, String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+		
+		 Map<String, String> errors = new HashMap<>();
+		    ex.getBindingResult().getAllErrors().forEach((error) -> {
+		        String fieldName = ((FieldError) error).getField();
+		        String errorMessage = error.getDefaultMessage();
+		        errors.put(fieldName, errorMessage);
+		    });
+		    return errors;
+		
 	}
 	
 
