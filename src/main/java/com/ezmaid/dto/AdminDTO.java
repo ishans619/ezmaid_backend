@@ -49,8 +49,9 @@ public class AdminDTO {
 		return adminId;
 	}
 
-	public void setAdminId(String adminId) {
+	public AdminDTO setAdminId(String adminId) {
 		this.adminId = adminId;
+		return this;
 	}
 
 	public String getfName() {

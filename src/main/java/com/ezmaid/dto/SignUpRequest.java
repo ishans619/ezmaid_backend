@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class CustomerDTO {
+public class SignUpRequest {
 	
-	private String custId;
+	private String id;
+	
+	private boolean isCustomer;
 	
 	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "First Name is mandatory")
@@ -38,14 +40,17 @@ public class CustomerDTO {
 	@Email(message = "Invalid email")
 	private String email;
 	
-	public CustomerDTO() {
+	private String userName;
+	
+	public SignUpRequest() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CustomerDTO(String custId, String fName, String mName, String lName, String contactNumber, String address,
-			String adharCardNumber, String panCardNumber, String email) {
+	public SignUpRequest(String id, boolean isCustomer, String fName, String mName, String lName, String contactNumber, String address,
+			String adharCardNumber, String panCardNumber, String email, String userName) {
 		super();
-		this.custId = custId;
+		this.id = id;
+		this.isCustomer=isCustomer;
 		this.fName = fName;
 		this.mName = mName;
 		this.lName = lName;
@@ -54,14 +59,23 @@ public class CustomerDTO {
 		this.adharCardNumber = adharCardNumber;
 		this.panCardNumber = panCardNumber;
 		this.email = email;
+		this.userName=userName;
 	}
 
-	public String getCustId() {
-		return custId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCustId(String custId) {
-		this.custId = custId;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public boolean getIsCustomer() {
+		return isCustomer;
+	}
+
+	public void setIsCustomer(boolean isCustomer) {
+		this.isCustomer = isCustomer;
 	}
 
 	public String getfName() {
@@ -127,13 +141,21 @@ public class CustomerDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	@Override
 	public String toString() {
-		return "CustomerDTO [custId=" + custId + ", fName=" + fName + ", mName=" + mName + ", lName=" + lName
-				+ ", contactNumber=" + contactNumber + ", address=" + address + ", adharCardNumber=" + adharCardNumber
-				+ ", panCardNumber=" + panCardNumber + ", email=" + email + "]";
+		return "SignUpRequest [id=" + id + ", isCustomer=" + isCustomer + ", fName=" + fName + ", mName=" + mName
+				+ ", lName=" + lName + ", contactNumber=" + contactNumber + ", address=" + address
+				+ ", adharCardNumber=" + adharCardNumber + ", panCardNumber=" + panCardNumber + ", email=" + email
+				+ ", userName=" + userName + "]";
 	}
-	
 
 }

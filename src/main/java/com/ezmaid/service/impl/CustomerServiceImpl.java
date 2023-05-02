@@ -24,7 +24,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public String saveCustomer(Customer customer) {
-		customer.setPassword("password");
 		customer.setIsFirstLogin(true);
 		customer.setIsVerified(false);
 		customer.setCrtdDate(LocalDate.now());

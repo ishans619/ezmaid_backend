@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public String saveAdmin(Admin admin) {
-		admin.setPassword("password");
+		admin.getUser().setPassword("password");
 		admin.setCrtdDate(LocalDate.now());
 		admin.setLstUpdtDate(LocalDate.now());
 		admin.setIsSuperAdmin(false);

@@ -25,7 +25,6 @@ public class MaidServiceImpl implements MaidService {
 
 	@Override
 	public String saveMaid(Maid maid) {
-		maid.setPassword("password");
 		maid.setIsFirstLogin(true);
 		maid.setIsVerified(false);
 		maid.setCrtdDate(LocalDate.now());

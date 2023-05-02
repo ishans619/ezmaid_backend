@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class MaidNotFoundException extends RuntimeException {
 	
 	public MaidNotFoundException(String message) {
-		
 		super(message);
-		
 	}
-
 }

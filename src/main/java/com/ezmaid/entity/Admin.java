@@ -2,11 +2,14 @@ package com.ezmaid.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,9 +39,6 @@ public class Admin {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "password")
-	private String password;
-	
 	@Column(name = "is_super_admin")
 	private Boolean isSuperAdmin; 
 	
@@ -48,6 +48,9 @@ public class Admin {
 	@Column(name = "lst_updt_date")
 	private LocalDate lstUpdtDate;
 
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	private User user;
 	
 	public Admin() {
 		// TODO Auto-generated constructor stub
@@ -55,7 +58,7 @@ public class Admin {
 
 
 	public Admin(String adminId, String fName, String mName, String lName, String contactNumber, String address,
-			String email, String password,LocalDate crtdDate, LocalDate lstUpdtDate, Boolean isSuperAdmin) {
+			String email, LocalDate crtdDate, LocalDate lstUpdtDate, Boolean isSuperAdmin) {
 		super();
 		this.adminId = adminId;
 		this.fName = fName;
@@ -64,7 +67,6 @@ public class Admin {
 		this.contactNumber = contactNumber;
 		this.address = address;
 		this.email = email;
-		this.password = password;
 		this.crtdDate = crtdDate;
 		this.lstUpdtDate = lstUpdtDate;
 		this.isSuperAdmin = isSuperAdmin;
@@ -139,16 +141,7 @@ public class Admin {
 		this.email = email;
 	}
 
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
+	
 	public LocalDate getCrtdDate() {
 		return crtdDate;
 	}
@@ -178,11 +171,18 @@ public class Admin {
 		this.isSuperAdmin = isSuperAdmin;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public String toString() {
 		return "Admin [adminId=" + adminId + ", fName=" + fName + ", mName=" + mName + ", lName=" + lName
-				+ ", contactNumber=" + contactNumber + ", address=" + address + ", email=" + email + ", password=" + password + ", crtdDate=" + crtdDate + ", lstUpdtDate="
+				+ ", contactNumber=" + contactNumber + ", address=" + address + ", email=" + email + ", crtdDate=" + crtdDate + ", lstUpdtDate="
 				+ lstUpdtDate + ", isSuperAdmin=" + isSuperAdmin + "]";
 	}
 	

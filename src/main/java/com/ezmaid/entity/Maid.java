@@ -2,11 +2,14 @@ package com.ezmaid.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,9 +45,6 @@ public class Maid {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "password")
-	private String password;
-	
 	@Column(name = "is_first_login")
 	private Boolean isFirstLogin;
 	
@@ -58,18 +58,18 @@ public class Maid {
 	private LocalDate lstUpdtDate;
 	
 	@Column(name = "lst_updt_by")
-	private String lstUpdtBy; 
+	private String lstUpdtBy;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	private User user;
 	
     public Maid() {
     	
     }
-    
-    
-
 
 	public Maid(String maidId, String fName, String mName, String lName, String contactNumber, String address,
-			String adharCardNumber, String panCardNumber, String email, String password, Boolean isFirstLogin,
+			String adharCardNumber, String panCardNumber, String email, Boolean isFirstLogin,
 			Boolean isVerified, LocalDate crtdDate, LocalDate lstUpdtDate, String lstUpdtBy) {
 		super();
 		this.maidId = maidId;
@@ -81,16 +81,12 @@ public class Maid {
 		this.adharCardNumber = adharCardNumber;
 		this.panCardNumber = panCardNumber;
 		this.email = email;
-		this.password = password;
 		this.isFirstLogin = isFirstLogin;
 		this.isVerified = isVerified;
 		this.crtdDate = crtdDate;
 		this.lstUpdtDate = lstUpdtDate;
 		this.lstUpdtBy = lstUpdtBy;
 	}
-
-
-
 
 	public String getMaidId() {
 		return maidId;
@@ -181,17 +177,7 @@ public class Maid {
 		this.email = email;
 	}
 
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
+	
 	public Boolean getIsFirstLogin() {
 		return isFirstLogin;
 	}
@@ -241,13 +227,19 @@ public class Maid {
 		this.lstUpdtBy = lstUpdtBy;
 	}
 
+	public User getUser() {
+		return user;
+	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public String toString() {
 		return "Maid [maidId=" + maidId + ", fName=" + fName + ", mName=" + mName + ", lName=" + lName
 				+ ", contactNumber=" + contactNumber + ", address=" + address + ", adharCardNumber=" + adharCardNumber
-				+ ", panCardNumber=" + panCardNumber + ", email=" + email + ", password=" + password + ", isFirstLogin="
+				+ ", panCardNumber=" + panCardNumber + ", email=" + email + ", isFirstLogin="
 				+ isFirstLogin + ", isVerified=" + isVerified + ", crtdDate=" + crtdDate + ", lstUpdtDate="
 				+ lstUpdtDate + ", lstUpdtBy=" + lstUpdtBy + "]";
 	}
