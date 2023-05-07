@@ -4,6 +4,7 @@ import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezmaid.dto.ChangePassDTO;
@@ -13,7 +14,6 @@ import com.ezmaid.exception.UserNotFoundException;
 import com.ezmaid.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
