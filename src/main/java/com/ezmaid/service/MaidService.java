@@ -6,7 +6,7 @@ import com.ezmaid.entity.Maid;
 
 public interface MaidService {
 	
-	public String saveMaid(Maid maid); 
+	public Maid saveMaid(Maid maid); 
 	public Maid fetchOne(String maidId);
 	public void deleteOne(String maidId);
 	public List<Maid> fetchAll();

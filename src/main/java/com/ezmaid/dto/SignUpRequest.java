@@ -40,14 +40,18 @@ public class SignUpRequest {
 	@Email(message = "Invalid email")
 	private String email;
 	
-	private String userName;
+	@NotNull(message = "Mandatory Field")
+	private String username;
+	
+	@NotNull(message = "Mandatory Field")
+	private String password;
 	
 	public SignUpRequest() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public SignUpRequest(String id, boolean isCustomer, String fName, String mName, String lName, String contactNumber, String address,
-			String adharCardNumber, String panCardNumber, String email, String userName) {
+			String adharCardNumber, String panCardNumber, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.isCustomer=isCustomer;
@@ -59,7 +63,8 @@ public class SignUpRequest {
 		this.adharCardNumber = adharCardNumber;
 		this.panCardNumber = panCardNumber;
 		this.email = email;
-		this.userName=userName;
+		this.username=username;
+		this.password=password;
 	}
 
 	public String getId() {
@@ -142,12 +147,20 @@ public class SignUpRequest {
 		this.email = email;
 	}
 	
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
@@ -155,7 +168,7 @@ public class SignUpRequest {
 		return "SignUpRequest [id=" + id + ", isCustomer=" + isCustomer + ", fName=" + fName + ", mName=" + mName
 				+ ", lName=" + lName + ", contactNumber=" + contactNumber + ", address=" + address
 				+ ", adharCardNumber=" + adharCardNumber + ", panCardNumber=" + panCardNumber + ", email=" + email
-				+ ", userName=" + userName + "]";
+				+ ", username=" + username + ", password=" + password + "]";
 	}
 
 }

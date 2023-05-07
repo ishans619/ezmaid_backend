@@ -1,5 +1,7 @@
 package com.ezmaid.controller;
 
+import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,9 +9,9 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,24 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezmaid.dto.AdminDTO;
 import com.ezmaid.entity.Admin;
-import com.ezmaid.exception.ErrorDetails;
+import com.ezmaid.entity.User;
 import com.ezmaid.service.AdminService;
+import com.ezmaid.util.AppConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
-import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
-
 @RestController
-@CrossOrigin
 public class AdminController {
 
 	private AdminService adminService;
+	private final PasswordEncoder passwordEncoder;
 
-	public AdminController(AdminService adminService) {
+	public AdminController(AdminService adminService, PasswordEncoder passwordEncoder) {
 		super();
 		this.adminService = adminService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
@@ -48,6 +50,15 @@ public class AdminController {
 		Admin admin = new Admin();
 		BeanUtils.copyProperties(adminDTO, admin);
 		System.out.println("Copied values to admin: " + admin);
+		
+		User userToBeSaved = new User();
+    	userToBeSaved.setUsername(adminDTO.getUsername());
+    	userToBeSaved.setRole(AppConstants.ADMIN);
+    	userToBeSaved.setPassword(passwordEncoder.encode(adminDTO.getUsername() + adminDTO.getContactNumber().substring(6)));
+    	
+    	admin.setUser(userToBeSaved);
+    	userToBeSaved.setAdmin(admin);
+    	
 		String adminId = adminService.saveAdmin(admin);
 		return ResponseEntity.ok(adminId);
 	}

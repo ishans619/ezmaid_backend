@@ -15,7 +15,6 @@ import com.ezmaid.service.AdminService;
 public class AdminServiceImpl implements AdminService {
 	
 	private AdminDao adminDao;
-	
 
 	public AdminServiceImpl(AdminDao adminDao) {
 		super();
@@ -24,7 +23,6 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public String saveAdmin(Admin admin) {
-		admin.getUser().setPassword("password");
 		admin.setCrtdDate(LocalDate.now());
 		admin.setLstUpdtDate(LocalDate.now());
 		admin.setIsSuperAdmin(false);

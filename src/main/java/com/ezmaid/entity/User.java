@@ -1,7 +1,10 @@
 package com.ezmaid.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,7 +14,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "user_name")
+        @UniqueConstraint(columnNames = "username")
 })
 public class User {
 
@@ -20,8 +23,8 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "username")
+    private String username;
     
     @Column(name = "password")
     private String password;
@@ -29,12 +32,15 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Customer customer;
     
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Maid maid;
     
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private Admin admin;
     
@@ -42,10 +48,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(Long id, String userName, String password, String role, Customer customer, Maid maid, Admin admin) {
+	public User(Long id, String username, String password, String role, Customer customer, Maid maid, Admin admin) {
 		super();
 		this.id = id;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.role = role;
 		this.customer = customer;
@@ -61,12 +67,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -111,7 +117,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", role=" + role + ", customer="
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", customer="
 				+ customer + ", maid=" + maid + ", admin=" + admin + "]";
 	}
 

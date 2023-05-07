@@ -6,7 +6,7 @@ import com.ezmaid.entity.Customer;
 
 public interface CustomerService {
 	
-	public String saveCustomer(Customer customer);
+	public Customer saveCustomer(Customer customer);
 	public Customer fetchOne(String custId);
 	public void deleteOne(String custId);
 	public List<Customer> fetchAll();

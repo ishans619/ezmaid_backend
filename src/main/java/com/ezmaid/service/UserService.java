@@ -8,9 +8,9 @@ import com.ezmaid.entity.User;
 public interface UserService {
 
     List<User> getUsers();
-    Optional<User> getUserByUserName(String username);
+    Optional<User> getUserByUsername(String username);
 
-    boolean hasUserWithUserName(String username);
+    boolean hasUserWithUsername(String username);
 
     User validateAndGetUserByUsername(String username);
     

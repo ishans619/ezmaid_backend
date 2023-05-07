@@ -47,5 +47,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 	}
 	
+	@ExceptionHandler(UserNotFoundException.class)
+	public final ResponseEntity<ErrorDetails> handleUserNotFoundException(Exception ex, WebRequest rqst) {
+		
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+				ex.getMessage(),
+				rqst.getDescription(false)); 
+		
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+		
+	}
 
+	@ExceptionHandler(PasswordMismatchException.class)
+	public final ResponseEntity<ErrorDetails> handlePasswordMismatchException(Exception ex, WebRequest rqst) {
+		
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+				ex.getMessage(),
+				rqst.getDescription(false)); 
+		
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.EXPECTATION_FAILED);
+		
+	}
+	
 }

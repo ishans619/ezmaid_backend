@@ -26,18 +26,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByUserName(String username) {
-        return userRepository.findByUserName(username);
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
-    public boolean hasUserWithUserName(String username) {
-        return userRepository.existsByUserName(username);
+    public boolean hasUserWithUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 
     @Override
     public User validateAndGetUserByUsername(String username) {
-        return getUserByUserName(username)
+        return getUserByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(String.format("User with username %s not found", username)));
     }
     

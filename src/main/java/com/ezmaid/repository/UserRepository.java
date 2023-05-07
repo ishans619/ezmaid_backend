@@ -10,6 +10,6 @@ import com.ezmaid.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	Optional<User> findByUserName(String username);
-    boolean existsByUserName(String username);
+	Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
 }

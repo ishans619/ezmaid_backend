@@ -30,11 +30,14 @@ public class AdminDTO {
 	@Email(message = "Invalid email")
 	private String email;
 	
+	@NotNull(message = "Mandatory Field")
+	private String username;
+	
 	public AdminDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminDTO(String adminId, String fName, String mName, String lName, String contactNumber, String address, String email) {
+	public AdminDTO(String adminId, String fName, String mName, String lName, String contactNumber, String address, String email, String username) {
 		super();
 		this.adminId = adminId;
 		this.fName = fName;
@@ -43,6 +46,7 @@ public class AdminDTO {
 		this.contactNumber = contactNumber;
 		this.address = address;
 		this.email = email;
+		this.username = username;
 	}
 
 	public String getAdminId() {
@@ -101,11 +105,19 @@ public class AdminDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	@Override
 	public String toString() {
 		return "AdminDTO [adminId=" + adminId + ", fName=" + fName + ", mName=" + mName + ", lName=" + lName
-				+ ", contactNumber=" + contactNumber + ", address=" + address + ", email=" + email + "]";
+				+ ", contactNumber=" + contactNumber + ", address=" + address + ", email=" + email + ", username=" + username + "]";
 	}
 	
 

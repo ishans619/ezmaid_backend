@@ -23,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String saveCustomer(Customer customer) {
+	public Customer saveCustomer(Customer customer) {
 		customer.setIsFirstLogin(true);
 		customer.setIsVerified(false);
 		customer.setCrtdDate(LocalDate.now());
@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 		customer.setLstUpdtBy("system");
 		
 		customer = customerDao.save(customer);
-		return customer.getCustomerId();
+		return customer;
 	}
 	
 	

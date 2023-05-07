@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
 public class AuthController {
 
     private final UserService userService;
@@ -64,12 +62,14 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
-    public String signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userService.hasUserWithUserName(signUpRequest.getUserName())) {
-            throw new DuplicatedUserInfoException(String.format("Username %s already been used", signUpRequest.getUserName()));
+    public AuthResponse signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+        if (userService.hasUserWithUsername(signUpRequest.getUsername())) {
+            throw new DuplicatedUserInfoException(String.format("Username %s already been used", signUpRequest.getUsername()));
         }
         
-        String savedId = "";
+        Customer savedCustomer=null;
+        Maid savedMaid=null;
+        String token ="";
 
         if (signUpRequest.getIsCustomer()) {
 			// map details to Customer
@@ -84,15 +84,16 @@ public class AuthController {
         	customerToBeSaved.setAddress(signUpRequest.getAddress());
         	
         	User userToBeSaved = new User();
-        	userToBeSaved.setUserName(signUpRequest.getUserName());
+        	userToBeSaved.setUsername(signUpRequest.getUsername());
         	userToBeSaved.setRole(AppConstants.CUSTOMER);
-        	userToBeSaved.setPassword(passwordEncoder.encode("password"));
+        	userToBeSaved.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         	customerToBeSaved.setUser(userToBeSaved);
         	userToBeSaved.setCustomer(customerToBeSaved);
         	
         	// call service to save customer
-        	savedId = customerService.saveCustomer(customerToBeSaved);
+        	savedCustomer = customerService.saveCustomer(customerToBeSaved);
+        	token = authenticateAndGetToken(savedCustomer.getUser().getUsername(), signUpRequest.getPassword());
         	
 		} else {
 			// map details to Maid
@@ -108,18 +109,19 @@ public class AuthController {
         	maidToBeSaved.setAddress(signUpRequest.getAddress());
         	
         	User userToBeSaved = new User();
-        	userToBeSaved.setUserName(signUpRequest.getUserName());
+        	userToBeSaved.setUsername(signUpRequest.getUsername());
         	userToBeSaved.setRole(AppConstants.MAID);
-        	userToBeSaved.setPassword(passwordEncoder.encode("password"));
+        	userToBeSaved.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         	maidToBeSaved.setUser(userToBeSaved);
         	userToBeSaved.setMaid(maidToBeSaved);
         	
         	// call service to save maid
-        	savedId = maidService.saveMaid(maidToBeSaved);
+        	savedMaid = maidService.saveMaid(maidToBeSaved);
+        	token = authenticateAndGetToken(savedMaid.getUser().getUsername(), signUpRequest.getPassword());
 		}
         
-        return savedId;
+        return new AuthResponse(token);
     }
 
     private String authenticateAndGetToken(String username, String password) {

@@ -40,10 +40,10 @@ public class WebSecurityConfig {
 //                .requestMatchers("/api/orders", "/api/orders/**").hasAnyAuthority(ADMIN, SUPER_ADMIN)
 //                .requestMatchers("/api/users", "/api/users/**").hasAuthority(SUPER_ADMIN)
         		.requestMatchers("/admins/**").hasAnyAuthority(AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
-        		.requestMatchers("/maids/**").hasAuthority(AppConstants.MAID)
-        		.requestMatchers("/customers/**").hasAuthority(AppConstants.CUSTOMER)
+        		.requestMatchers("/maids/**").hasAnyAuthority(AppConstants.MAID, AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
+        		.requestMatchers("/customers/**").hasAnyAuthority(AppConstants.CUSTOMER, AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
         		.requestMatchers("/home/**", "/auth/**").permitAll()
-                .requestMatchers("/", "/error", "/csrf").permitAll()
+        		.requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));

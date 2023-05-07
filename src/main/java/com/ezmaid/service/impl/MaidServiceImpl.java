@@ -24,7 +24,7 @@ public class MaidServiceImpl implements MaidService {
 
 
 	@Override
-	public String saveMaid(Maid maid) {
+	public Maid saveMaid(Maid maid) {
 		maid.setIsFirstLogin(true);
 		maid.setIsVerified(false);
 		maid.setCrtdDate(LocalDate.now());
@@ -32,7 +32,7 @@ public class MaidServiceImpl implements MaidService {
 		maid.setLstUpdtBy("system");
 		
 		maid = maidDao.save(maid);
-		return maid.getMaidId();
+		return maid;
 	}
 
 
