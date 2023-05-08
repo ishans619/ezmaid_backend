@@ -87,6 +87,7 @@ public class AuthController {
         	userToBeSaved.setUsername(signUpRequest.getUsername());
         	userToBeSaved.setRole(AppConstants.CUSTOMER);
         	userToBeSaved.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        	userToBeSaved.setIsActive(true);
 
         	customerToBeSaved.setUser(userToBeSaved);
         	userToBeSaved.setCustomer(customerToBeSaved);
@@ -112,6 +113,7 @@ public class AuthController {
         	userToBeSaved.setUsername(signUpRequest.getUsername());
         	userToBeSaved.setRole(AppConstants.MAID);
         	userToBeSaved.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        	userToBeSaved.setIsActive(true);
 
         	maidToBeSaved.setUser(userToBeSaved);
         	userToBeSaved.setMaid(maidToBeSaved);

@@ -29,7 +29,7 @@ public class SignUpRequest {
 	private String address;
 	
 	@NotNull(message = "Mandatory Field")
-	@Pattern(regexp="(^$|[0-9]{16})", message = "Aadhaar Card Number Invalid")
+	@Pattern(regexp="(^$|[0-9]{12})", message = "Aadhaar Card Number Invalid")
 	private String adharCardNumber;
 	
 	@NotNull(message = "Mandatory Field")
