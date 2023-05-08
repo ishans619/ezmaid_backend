@@ -48,6 +48,18 @@ public class CustomerController {
 		String custId = customerService.updateCustomer(existingCustomer);
 		return custId;
 	}
+	
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@PutMapping(path = "/customers/verify")
+	public String verify(@RequestBody SignUpRequest customerDTO) {
+		log.info("customer data passed = "+ customerDTO);
+		Customer existingCustomer = customerService.fetchOne(customerDTO.getId());
+		
+		existingCustomer.setIsVerified(true);
+		
+		String custId = customerService.updateCustomer(existingCustomer);
+		return custId;
+	}
 
 	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/customers/{custId}")

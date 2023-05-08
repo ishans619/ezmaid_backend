@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezmaid.dto.SignUpRequest;
+import com.ezmaid.entity.Customer;
 import com.ezmaid.entity.Maid;
 import com.ezmaid.service.MaidService;
 
@@ -45,6 +46,18 @@ public class MaidController {
 		Maid existingMaid = maidService.fetchOne(maidDTO.getId());
 		BeanUtils.copyProperties(maidDTO, existingMaid);
 		log.info("Copied values to maid: {}", existingMaid);
+		String maidId = maidService.updateMaid(existingMaid);
+		return maidId;
+	}
+	
+	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@PutMapping(path = "/maids/verify")
+	public String verify(@RequestBody SignUpRequest maidDTO) {
+		log.info("maid data passed = "+ maidDTO);
+		Maid existingMaid = maidService.fetchOne(maidDTO.getId());
+		
+		existingMaid.setIsVerified(true);
+		
 		String maidId = maidService.updateMaid(existingMaid);
 		return maidId;
 	}
