@@ -31,6 +31,9 @@ public class User {
 
     @Column(name = "role")
     private String role;
+    
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @JsonIgnore
     @OneToOne(mappedBy = "user")
@@ -48,7 +51,7 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(Long id, String username, String password, String role, Customer customer, Maid maid, Admin admin) {
+	public User(Long id, String username, String password, String role, Customer customer, Maid maid, Admin admin, Boolean isActive) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -57,6 +60,7 @@ public class User {
 		this.customer = customer;
 		this.maid = maid;
 		this.admin = admin;
+		this.isActive=isActive;
 	}
 
 	public Long getId() {
@@ -91,6 +95,14 @@ public class User {
 		this.role = role;
 	}
 
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -118,7 +130,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", customer="
-				+ customer + ", maid=" + maid + ", admin=" + admin + "]";
+				+ customer + ", maid=" + maid + ", admin=" + admin + ", isActive=" + isActive + "]";
 	}
-
 }
