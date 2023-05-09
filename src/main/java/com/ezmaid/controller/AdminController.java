@@ -55,6 +55,7 @@ public class AdminController {
     	userToBeSaved.setUsername(adminDTO.getUsername());
     	userToBeSaved.setRole(AppConstants.ADMIN);
     	userToBeSaved.setPassword(passwordEncoder.encode(adminDTO.getUsername() + adminDTO.getContactNumber().substring(6)));
+    	userToBeSaved.setIsActive(true);
     	
     	admin.setUser(userToBeSaved);
     	userToBeSaved.setAdmin(admin);
