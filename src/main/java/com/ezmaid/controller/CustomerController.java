@@ -1,7 +1,6 @@
 package com.ezmaid.controller;
 
-import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
-
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezmaid.dto.SignUpRequest;
 import com.ezmaid.entity.Customer;
 import com.ezmaid.service.CustomerService;
+import com.ezmaid.service.UtilityService;
+import com.ezmaid.util.AppConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,13 +33,15 @@ public class CustomerController {
 	private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
 	private CustomerService customerService;
+	private UtilityService utilityService;
 
-	public CustomerController(CustomerService customerService) {
+	public CustomerController(CustomerService customerService, UtilityService utilityService) {
 		super();
 		this.customerService = customerService;
+		this.utilityService = utilityService;
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/customers")
 	public String update(@RequestBody SignUpRequest customerDTO) {
 		log.info("customer data passed = "+ customerDTO);
@@ -49,31 +52,33 @@ public class CustomerController {
 		return custId;
 	}
 	
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/customers/verify")
 	public String verify(@RequestBody SignUpRequest customerDTO) {
-		log.info("customer data passed = "+ customerDTO);
+		
 		Customer existingCustomer = customerService.fetchOne(customerDTO.getId());
 		
 		existingCustomer.setIsVerified(true);
+		existingCustomer.setLstUpdtBy(utilityService.getLoggedInUserId());
+		existingCustomer.setLstUpdtDate(LocalDate.now());
 		
 		String custId = customerService.updateCustomer(existingCustomer);
 		return custId;
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/customers/{custId}")
 	public Customer fetchOne(@PathVariable("custId") String custId) {
 		return customerService.fetchOne(custId); 
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/customers")
 	public List<Customer> fetchAll() {
 		return customerService.fetchAll(); 
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@DeleteMapping(path = "/customers/{custId}")
 	public String delete(@PathVariable("custId") String custId) {
 		customerService.deleteOne(custId); 
@@ -92,5 +97,3 @@ public class CustomerController {
 	}
 
 }
-
-

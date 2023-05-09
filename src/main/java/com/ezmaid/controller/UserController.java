@@ -1,7 +1,5 @@
 package com.ezmaid.controller;
 
-import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +11,8 @@ import com.ezmaid.entity.User;
 import com.ezmaid.exception.PasswordMismatchException;
 import com.ezmaid.exception.UserNotFoundException;
 import com.ezmaid.service.UserService;
+import com.ezmaid.service.UtilityService;
+import com.ezmaid.util.AppConstants;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -22,19 +22,19 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class UserController {
 
 	private UserService userService;
+	private UtilityService utilityService;
 	private final PasswordEncoder passwordEncoder;
 
-	public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+	public UserController(UserService userService, UtilityService utilityService, PasswordEncoder passwordEncoder) {
 		super();
 		this.userService = userService;
+		this.utilityService = utilityService;
 		this.passwordEncoder = passwordEncoder;
 	}
 	
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/changepass")
 	public Boolean changePassword(@RequestBody ChangePassDTO changePassDTO) {
-		
-		System.out.println(changePassDTO);
 		
 		User existingUser = userService.getUserByUsername(changePassDTO.getUsername())
                 .orElseThrow(() -> new UserNotFoundException(String.format("Username %s not found", changePassDTO.getUsername())));
@@ -49,7 +49,7 @@ public class UserController {
 		return true;
 	}
 	
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/deactivate")
 	public Boolean deactivateUser(@RequestBody ChangePassDTO changePassDTO) {
 		
@@ -62,7 +62,7 @@ public class UserController {
 		return true;
 	}
 	
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/activate")
 	public Boolean activateUser(@RequestBody ChangePassDTO changePassDTO) {
 		

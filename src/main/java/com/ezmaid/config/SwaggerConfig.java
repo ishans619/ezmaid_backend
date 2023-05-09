@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ezmaid.util.AppConstants;
+
 @Configuration
 public class SwaggerConfig {
 
@@ -18,10 +20,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes(BEARER_KEY_SECURITY_SCHEME,
+                        new Components().addSecuritySchemes(AppConstants.BEARER_KEY_SECURITY_SCHEME,
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info().title(applicationName));
     }
 
-    public static final String BEARER_KEY_SECURITY_SCHEME = "bearer-key";
 }

@@ -15,4 +15,6 @@ public interface AppConstants {
     String TOKEN_PREFIX = "Bearer ";
     
     String VALIDATION_FAILED_DETAIL = "Form fields are invalid, please correct and resubmit!";
+    
+    public static final String BEARER_KEY_SECURITY_SCHEME = "bearer-key";
 }

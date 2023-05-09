@@ -1,7 +1,5 @@
 package com.ezmaid.controller;
 
-import static com.ezmaid.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +41,7 @@ public class AdminController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PostMapping(path = "/admins")
 	public ResponseEntity<String> save(@Valid @RequestBody AdminDTO adminDTO) {
 		System.out.println("adminDTO = "+ adminDTO);
@@ -64,7 +62,7 @@ public class AdminController {
 		return ResponseEntity.ok(adminId);
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@PutMapping(path = "/admins")
 	public String update(@Valid @RequestBody AdminDTO adminDTO) {
 
@@ -76,19 +74,19 @@ public class AdminController {
 		return adminId;
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/admins/{adminId}")
 	public Admin fetchOne(@PathVariable("adminId") String adminId) {
 		return adminService.fetchOne(adminId); 
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/admins")
 	public List<Admin> fetchAll() {
 		return adminService.fetchAll(); 
 	}
 
-	@Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@DeleteMapping(path = "/admins/{adminId}")
 	public String delete(@PathVariable("adminId") String adminId) {
 		return adminService.deleteOne(adminId); 
