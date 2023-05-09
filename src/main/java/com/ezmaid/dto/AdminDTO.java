@@ -11,7 +11,7 @@ public class AdminDTO {
 	
 	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "First Name is mandatory")
-	private String fName; 
+	private String fName;
 	
 	private String mName;
 	

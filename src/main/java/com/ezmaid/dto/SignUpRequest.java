@@ -2,7 +2,6 @@ package com.ezmaid.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class SignUpRequest {
@@ -11,39 +10,41 @@ public class SignUpRequest {
 	
 	private boolean isCustomer;
 	
-	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "First Name is mandatory")
+//	@Pattern(regexp="(^$|[]{2})", message = "First name is invalid") // need to be tested
 	private String fName; 
 	
 	private String mName;
 	
-	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "Last Name is mandatory")
+//	@Pattern(regexp="(^$|[]{2})", message = "First name is invalid") // need to be tested
 	private String lName;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Contact number is mandatory")
 	@Pattern(regexp="(^$|[1-9]{1}[0-9]{9})", message = "Contact Number Invalid")
 	private String contactNumber;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Address is mandatory")
 	private String address;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Adhar card number is mandatory")
 	@Pattern(regexp="(^$|[0-9]{12})", message = "Aadhaar Card Number Invalid")
 	private String adharCardNumber;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "PAN card number is mandatory")
 	@Pattern(regexp="(^$|[A-Z]{5}[0-9]{4}[A-Z]{1})", message = "Pan Card Number Invalid")
 	private String panCardNumber;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Email is mandatory")
 	@Email(message = "Invalid email")
 	private String email;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Username is mandatory")
+//	@Pattern(regexp="(^$|[]{4})", message = "Username is Invalid") // need to be tested
 	private String username;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Password is mandatory")
+//	@Pattern(regexp="(^$|[]{4})", message = "Password is Invalid") // need to be tested
 	private String password;
 	
 	public SignUpRequest() {

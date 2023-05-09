@@ -13,4 +13,6 @@ public interface AppConstants {
     
     String TOKEN_HEADER = "Authorization";
     String TOKEN_PREFIX = "Bearer ";
+    
+    String VALIDATION_FAILED_DETAIL = "Form fields are invalid, please correct and resubmit!";
 }
