@@ -9,28 +9,25 @@ public class AdminDTO {
 	
 	private String adminId;
 	
-	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "First Name is mandatory")
 	private String fName;
 	
 	private String mName;
 	
-	@NotNull(message = "Mandatory Field")
 	@NotBlank(message = "Last Name is mandatory")
 	private String lName;
 	
-	@NotNull(message = "Mandatory Field")
 	@Pattern(regexp="(^$|[1-9]{1}[0-9]{9})", message = "Contact Number Invalid")
 	private String contactNumber;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Address is a mandatory field")
 	private String address;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Email is a mandatory field")
 	@Email(message = "Invalid email")
 	private String email;
 	
-	@NotNull(message = "Mandatory Field")
+	@NotBlank(message = "Username is a mandatory field")
 	private String username;
 	
 	public AdminDTO() {
