@@ -2,7 +2,6 @@ package com.ezmaid.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class AdminDTO {
@@ -17,17 +16,18 @@ public class AdminDTO {
 	@NotBlank(message = "Last Name is mandatory")
 	private String lName;
 	
+	@NotBlank(message = "Contact number is mandatory")
 	@Pattern(regexp="(^$|[1-9]{1}[0-9]{9})", message = "Contact Number Invalid")
 	private String contactNumber;
 	
-	@NotBlank(message = "Address is a mandatory field")
+	@NotBlank(message = "Address is a mandatory")
 	private String address;
 	
-	@NotBlank(message = "Email is a mandatory field")
+	@NotBlank(message = "Email is a mandatory")
 	@Email(message = "Invalid email")
 	private String email;
 	
-	@NotBlank(message = "Username is a mandatory field")
+	@NotBlank(message = "Username is a mandatory")
 	private String username;
 	
 	public AdminDTO() {

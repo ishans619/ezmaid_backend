@@ -1,16 +1,14 @@
 package com.ezmaid.controller;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezmaid.dto.SignUpRequest;
 import com.ezmaid.entity.Maid;
+import com.ezmaid.exception.ErrorDetails;
 import com.ezmaid.service.MaidService;
 import com.ezmaid.service.UtilityService;
 import com.ezmaid.util.AppConstants;
+import com.ezmaid.util.AppUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -88,16 +88,16 @@ public class MaidController {
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public final ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
-
-		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
-			errors.put(fieldName, errorMessage);
-		});
-
-		return new ResponseEntity<Map<String, String>>(errors, HttpStatus.BAD_REQUEST);
+	public final ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+		
+		StringBuilder sbError = new StringBuilder();
+		
+		ex.getBindingResult().getAllErrors().forEach(AppUtils.fetchErrors(sbError));
+		
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+				AppConstants.VALIDATION_FAILED_DETAIL, sbError.toString()); 
+		
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.EXPECTATION_FAILED);
 	}
 
 }
