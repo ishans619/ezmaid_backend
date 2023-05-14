@@ -23,7 +23,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		
 	}
 	
-	
 	@ExceptionHandler(CustomerNotFoundException.class)
 	public final ResponseEntity<ErrorDetails> handleCustomerNotFoundException(Exception ex, WebRequest rqst) {
 		
@@ -34,7 +33,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
 		
 	}
-	
 	
 	@ExceptionHandler(AdminNotFoundException.class)
 	public final ResponseEntity<ErrorDetails> handleAdminNotFoundException(Exception ex, WebRequest rqst) {
@@ -57,9 +55,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
 		
 	}
+	
+	@ExceptionHandler(RequestNotFoundException.class)
+	public final ResponseEntity<ErrorDetails> handleRequestNotFoundException(Exception ex, WebRequest rqst) {
+		
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+				ex.getMessage(),
+				rqst.getDescription(false)); 
+		
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.NOT_FOUND);
+		
+	}
 
 	@ExceptionHandler(PasswordMismatchException.class)
 	public final ResponseEntity<ErrorDetails> handlePasswordMismatchException(Exception ex, WebRequest rqst) {
+		
+		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
+				ex.getMessage(),
+				rqst.getDescription(false)); 
+		
+		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.EXPECTATION_FAILED);
+		
+	}
+	
+	@ExceptionHandler(RequestFinalizeException.class)
+	public final ResponseEntity<ErrorDetails> handleRequestFinalizeException(Exception ex, WebRequest rqst) {
 		
 		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(),
 				ex.getMessage(),

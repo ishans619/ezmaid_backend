@@ -77,7 +77,13 @@ public class CustomerController {
 	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@GetMapping(path = "/customers")
 	public List<Customer> fetchAll() {
-		return customerService.fetchAll(); 
+		List<Customer> custList = customerService.fetchAll();
+		
+		for (Customer customer : custList) {
+			customer.setRequest(null);
+		}
+		
+		return custList; 
 	}
 
 	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})

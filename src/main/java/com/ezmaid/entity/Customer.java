@@ -1,14 +1,21 @@
 package com.ezmaid.entity;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -51,6 +58,9 @@ public class Customer {
 	@Column(name = "is_verified")
 	private Boolean isVerified;
 	
+	@Column(name = "rating")
+	private Float rating;
+	
 	@Column(name = "crtd_date")
 	private LocalDate crtdDate;
 	
@@ -64,13 +74,19 @@ public class Customer {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	private User user;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+	@JsonIgnoreProperties("customer")
+	@JsonIgnore
+//	@JsonManagedReference
+	private List<Request> request;
+	
 	public Customer() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Customer(String customerId, String fName, String mName, String lName, String contactNumber, String address,
 			String adharCardNumber, String panCardNumber, String email, Boolean isFirstLogin,
-			Boolean isVerified, LocalDate crtdDate, LocalDate lstUpdtDate, String lstUpdtBy) {
+			Boolean isVerified, Float rating, LocalDate crtdDate, LocalDate lstUpdtDate, String lstUpdtBy) {
 		super();
 		this.customerId = customerId;
 		this.fName = fName;
@@ -83,6 +99,7 @@ public class Customer {
 		this.email = email;
 		this.isFirstLogin = isFirstLogin;
 		this.isVerified = isVerified;
+		this.rating = rating;
 		this.crtdDate = crtdDate;
 		this.lstUpdtDate = lstUpdtDate;
 		this.lstUpdtBy = lstUpdtBy;
@@ -196,6 +213,14 @@ public class Customer {
 	public void setIsVerified(Boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+	
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
 
 
 	public LocalDate getCrtdDate() {
@@ -234,13 +259,21 @@ public class Customer {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public List<Request> getRequest() {
+		return request;
+	}
+
+	public void setRequest(List<Request> request) {
+		this.request = request;
+	}
 
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", fName=" + fName + ", mName=" + mName + ", lName=" + lName
 				+ ", contactNumber=" + contactNumber + ", address=" + address + ", adharCardNumber=" + adharCardNumber
 				+ ", panCardNumber=" + panCardNumber + ", email=" + email + ", isFirstLogin="
-				+ isFirstLogin + ", isVerified=" + isVerified + ", crtdDate=" + crtdDate + ", lstUpdtDate="
+				+ isFirstLogin + ", isVerified=" + isVerified + ", rating=" + rating + ", crtdDate=" + crtdDate + ", lstUpdtDate="
 				+ lstUpdtDate + ", lstUpdtBy=" + lstUpdtBy + "]";
 	}
 	

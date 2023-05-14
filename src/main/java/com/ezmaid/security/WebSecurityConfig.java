@@ -37,11 +37,10 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests()
 //                .requestMatchers(HttpMethod.POST, "/home").hasAnyAuthority(AppConstants.ADMIN, AppConstants.SUPER_ADMIN, AppConstants.CUSTOMER, AppConstants.MAID)
 //                .requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyAuthority(ADMIN, SUPER_ADMIN, CUSTOMER, MAID)
-//                .requestMatchers("/api/orders", "/api/orders/**").hasAnyAuthority(ADMIN, SUPER_ADMIN)
-//                .requestMatchers("/api/users", "/api/users/**").hasAuthority(SUPER_ADMIN)
         		.requestMatchers("/admins/**").hasAnyAuthority(AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
-        		.requestMatchers("/maids/**").hasAnyAuthority(AppConstants.MAID, AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
+        		.requestMatchers("/maids/**").hasAnyAuthority(AppConstants.MAID, AppConstants.ADMIN, AppConstants.SUPER_ADMIN, AppConstants.CUSTOMER)
         		.requestMatchers("/customers/**").hasAnyAuthority(AppConstants.CUSTOMER, AppConstants.ADMIN, AppConstants.SUPER_ADMIN)
+        		.requestMatchers("/requests/**").hasAnyAuthority(AppConstants.CUSTOMER, AppConstants.MAID)
         		.requestMatchers("/home/**", "/auth/**").permitAll()
         		.requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated();

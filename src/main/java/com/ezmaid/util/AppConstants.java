@@ -6,6 +6,9 @@ public interface AppConstants {
     String SUPER_ADMIN = "SuperAdmin";
     String CUSTOMER = "Customer";
     String MAID = "Maid";
+ 
+    String REQUEST_TYPE_OPEN = "Open";
+    String REQUEST_TYPE_CLOSE = "Close";
     
     String TOKEN_TYPE = "JWT";
     String TOKEN_ISSUER = "auth-api";
