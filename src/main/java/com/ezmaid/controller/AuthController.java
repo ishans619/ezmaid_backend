@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,8 @@ import com.ezmaid.entity.Maid;
 import com.ezmaid.entity.User;
 import com.ezmaid.exception.DuplicatedUserInfoException;
 import com.ezmaid.exception.ErrorDetails;
+import com.ezmaid.exception.UserInactiveException;
+import com.ezmaid.security.CustomUserDetails;
 import com.ezmaid.security.TokenProvider;
 import com.ezmaid.service.CustomerService;
 import com.ezmaid.service.MaidService;
@@ -121,13 +124,14 @@ public class AuthController {
         	
         	// call service to save maid
         	savedMaid = maidService.saveMaid(maidToBeSaved);
+        	
         	token = authenticateAndGetToken(savedMaid.getUser().getUsername(), signUpRequest.getPassword());
 		}
         
         return new AuthResponse(token);
     }
 
-    private String authenticateAndGetToken(String username, String password) {
+    private String authenticateAndGetToken(String username, String password) throws UserInactiveException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         return tokenProvider.generate(authentication);
     }

@@ -79,7 +79,13 @@ public class MaidController {
 	public List<Maid> fetchAll() {
 		return maidService.fetchAll(); 
 	}
-
+	
+	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
+	@GetMapping(path = "/maids/customers")
+	public List<Maid> fetchAllForCustomer() {
+		return maidService.fetchAllVerified(); 
+	}
+	
 	@Operation(security = {@SecurityRequirement(name = AppConstants.BEARER_KEY_SECURITY_SCHEME)})
 	@DeleteMapping(path = "/maids/{maidId}")
 	public String delete(@PathVariable("maidId") String maidId) {

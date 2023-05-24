@@ -12,6 +12,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private String name;
     private String email;
+    private Boolean isVerified;
     private Collection<? extends GrantedAuthority> authorities;
 
     
@@ -20,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
 		// TODO Auto-generated constructor stub
 	}
     
-    public CustomUserDetails(String id, String username, String password, String name, String email,
+    public CustomUserDetails(String id, String username, String password, String name, String email, Boolean isVerified,
     		Collection<? extends GrantedAuthority> authorities) {
     	super();
     	this.id = id;
@@ -28,6 +29,7 @@ public class CustomUserDetails implements UserDetails {
     	this.password = password;
     	this.name = name;
     	this.email = email;
+    	this.isVerified = isVerified;
     	this.authorities = authorities;
     }
     
@@ -90,6 +92,14 @@ public class CustomUserDetails implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public Boolean getIsVerified() {
+		return isVerified;
+	}
+
+	public void setIsVerified(Boolean isVerified) {
+		this.isVerified = isVerified;
+	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
@@ -102,7 +112,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public String toString() {
 		return "CustomUserDetails [id=" + id + ", username=" + username + ", password=" + password + ", name=" + name
-				+ ", email=" + email + ", authorities=" + authorities + "]";
+				+ ", email=" + email + ", isVerified=" + isVerified + ", authorities=" + authorities + "]";
 	}
 	
 }

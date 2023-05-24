@@ -57,6 +57,11 @@ public class MaidServiceImpl implements MaidService {
 	public List<Maid> fetchAll() {
 		return maidDao.findAll();
 	}
+	
+	@Override
+	public List<Maid> fetchAllVerified() {
+		return maidDao.findByIsVerifiedTrue();
+	}
 
 
 	@Override

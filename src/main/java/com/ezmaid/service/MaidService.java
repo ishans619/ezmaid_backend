@@ -10,6 +10,7 @@ public interface MaidService {
 	public Maid fetchOne(String maidId);
 	public void deleteOne(String maidId);
 	public List<Maid> fetchAll();
+	public List<Maid> fetchAllVerified();
 	public String updateMaid(Maid existingMaid);
 }
 

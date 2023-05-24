@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public Customer fetchOne(String customerId) {
-		Optional<Customer> customer =  customerDao.findById(customerId);
+		Optional<Customer> customer = customerDao.findById(customerId);
 		if(customer.isEmpty()) {
 			throw new CustomerNotFoundException("No customer record found with the provided ID: "+customerId);
 		}
